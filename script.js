@@ -2,26 +2,38 @@ const game = () => {
   let pScore = 0;
   let cScore = 0;
 
+  const gameContainer = document.querySelector("section.game");
+  const playBtn = gameContainer.querySelector(".intro button");
+  const resetBtn = gameContainer.querySelector("button.startOver");
+  const introScreen = gameContainer.querySelector(".intro");
+  const match = gameContainer.querySelector(".match");
 
+  const options = gameContainer.querySelectorAll(".options button");
+  const playerHand = gameContainer.querySelector(".player-hand");
+  const computerHand = gameContainer.querySelector(".computer-hand");
+  const hands = gameContainer.querySelectorAll(".hands img");
+  
+  const playerScore = document.querySelector(".player-score p");
+  const computerScore = document.querySelector(".computer-score p");
 
 
   const startGame = () => {
-    const playBtn = document.querySelector(".intro button");
-    const introScreen = document.querySelector(".intro");
-    const match = document.querySelector(".match");
 
     playBtn.addEventListener("click", () => {
       introScreen.classList.add("fadeOut");
       match.classList.add("fadeIn");
     });
+    resetBtn.addEventListener("click", () => {
+      playerScore.innerText = '0';
+      computerScore.innerText = '0';
+      pScore = cScore = 0;
+      console.log("rest");
+    });
   };
 
 
   const playMatch = () => {
-    const options = document.querySelectorAll(".options button");
-    const playerHand = document.querySelector(".player-hand");
-    const computerHand = document.querySelector(".computer-hand");
-    const hands = document.querySelectorAll(".hands img");
+
 
     hands.forEach(hand => {
       hand.addEventListener("animationend", function() {
@@ -35,19 +47,14 @@ const game = () => {
     options.forEach(option => {
       option.addEventListener("click", function() {
 
-
         const computerNumber = Math.round(Math.random() * 3);
         const computerChoice = computerOptions[computerNumber];
-        console.log(computerNumber)
 
         setTimeout(() => {
 
-
           compareHands(this.textContent, computerChoice);
-
-
-          playerHand.src = `./assets/${this.textContent}.png`;
-          computerHand.src = `./assets/${computerChoice}.png`;
+          playerHand.src = `assets/${this.textContent}.png`;
+          computerHand.src = `assets/${computerChoice}.png`;
         }, 2000);
 
 
@@ -58,19 +65,12 @@ const game = () => {
   };
 
   const updateScore = () => {
-    const playerScore = document.querySelector(".player-score p");
-    const computerScore = document.querySelector(".computer-score p");
     playerScore.textContent = pScore;
     computerScore.textContent = cScore;
   };
 
-
   const compareHands = (playerChoice, computerChoice) => {
-
-
     const winner = document.querySelector(".winner");
-
-
     if (playerChoice === computerChoice) {
       winner.textContent = "It is a tie";
       return;
@@ -126,6 +126,3 @@ const game = () => {
 };
 
 game();
-
-
-
